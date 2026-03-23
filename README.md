@@ -2,6 +2,11 @@
 
 A real-time messaging application built with **FastAPI**, **React**, and **MongoDB**.
 
+## 🔴 Live Demo
+
+- **Live App:** https://hayyim-1.onrender.com
+- **Live API:** https://hayyim.onrender.com
+
 ## 🚀 Tech Stack
 
 - **Backend:** Python (FastAPI), WebSockets, PyMongo

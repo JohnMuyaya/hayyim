@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import client
-from routes import auth_routes, chat_routes
-from websocket import ws
+from .database import client
+from .routes import auth_routes, chat_routes
+from .websocket import ws
 
 app = FastAPI()
 

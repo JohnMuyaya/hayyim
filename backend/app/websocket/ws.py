@@ -1,5 +1,5 @@
-from fastapi import APIRouter, WebSocket
-from database import messages
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from ..database import messages
 
 router = APIRouter()
 
@@ -27,6 +27,8 @@ async def websocket_endpoint(websocket: WebSocket, username: str):
                     "content": data["content"],
                     "status": "delivered"
                 })
+    except WebSocketDisconnect:
+        print(f"Client {username} disconnected (Normal)")
     except Exception as e:
         print(f"WebSocket Error for {username}: {e}")
     finally:

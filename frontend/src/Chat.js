@@ -72,12 +72,6 @@ export default function Chat({ user }) {
       }
     }
 
-    try {
-      await API.post('/chat/send', { sender: user, receiver, content: text });
-    } catch (error) {
-      console.error('Failed to send message:', error);
-    }
-
     setText("");
   };
 

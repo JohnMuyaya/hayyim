@@ -1,4 +1,5 @@
 from fastapi import APIRouter, WebSocket
+from database import messages
 
 router = APIRouter()
 
@@ -11,6 +12,14 @@ async def websocket_endpoint(websocket: WebSocket, username: str):
     try:
         while True:
             data = await websocket.receive_json()
+            
+            # Persist the message to MongoDB
+            messages.insert_one({
+                "sender": username,
+                "receiver": data["receiver"],
+                "content": data["content"]
+            })
+
             receiver = data["receiver"]
             if receiver in clients:
                 await clients[receiver].send_json({
@@ -18,8 +27,8 @@ async def websocket_endpoint(websocket: WebSocket, username: str):
                     "content": data["content"],
                     "status": "delivered"
                 })
-    except:
-        pass
+    except Exception as e:
+        print(f"WebSocket Error for {username}: {e}")
     finally:
         if username in clients:
             del clients[username]

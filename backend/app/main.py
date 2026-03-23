@@ -22,6 +22,10 @@ async def startup_event():
     except Exception as e:
         print(f"❌ MongoDB Connection Failed: {e}")
 
+@app.get("/")
+async def root():
+    return {"message": "Hayyim Chat Application Backend is Running!"}
+
 app.include_router(auth_routes.router)
 app.include_router(chat_routes.router)
 app.include_router(ws.router)

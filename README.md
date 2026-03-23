@@ -1,52 +1,65 @@
-# Chat Application (FastAPI + React + MongoDB)
+# Hayyim Chat Application
 
-This repository contains a real-time chat app:
-- FastAPI backend (REST + WebSockets)
-- React frontend (with WebSocket client)
-- MongoDB for persistent messages
-- Docker Compose local setup
+A real-time messaging application built with **FastAPI**, **React**, and **MongoDB**.
 
-## Backend endpoints
-- `POST /login` (auth placeholder)
-- `POST /chat/send` (save chat message)
-- `GET /chat/messages` (retrieve persisted messages)
-- `ws://<host>/ws/{username}` (real-time message delivery)
+## 🚀 Tech Stack
 
-## Local development
-1. Create `.env` in `backend/`:
-   - `MONGO_URI=mongodb://mongo:27017` (or Atlas URI)
-2. Build + run:
-   - `docker-compose up --build`
-3. Visit frontend:
-   - http://localhost:3000
-4. Backend API:
-   - http://localhost:8000
-5. MongoDB (inside compose):
-   - mongodb://localhost:27017
+- **Backend:** Python (FastAPI), WebSockets, PyMongo
+- **Frontend:** JavaScript (React)
+- **Database:** MongoDB Atlas
+- **Deployment:** Docker, Render
 
-## Deploy online (free tier suggestions)
-1. MongoDB Atlas (free 512MB)
-   - Create cluster, get URI, set `MONGO_URI`.
-2. Railway / Render / Fly.io (check free limits)
-   - Deploy backend service (port 8000, set env var `MONGO_URI`).
-   - Deploy frontend static app.
+## 📂 Project Structure
 
-## Why GET is needed
-- `POST /chat/send` writes messages into MongoDB.
-- `GET /chat/messages` reads persisted data and displays history.
-- Without GET, clients cannot sync stored chat history after reload.
+- `backend/`: FastAPI server source code.
+- `frontend/`: React client source code.
+- `docker-compose.yml`: Configuration to run the app locally with Docker.
 
-## Persistence behavior
-- Saved in `messages` collection by `backend/app/routes/chat_routes.py`.
-- WebSocket used for live delivery; REST used for persistence/read.
+## 🛠️ Setup & Installation
 
-## Notes
-- Enable CORS in `backend/app/main.py` (already done).
-- Frontend `frontend/src/api.js` currently points at `http://localhost:8000`.
-  - In production set to deployed API URL (`https://api.example.com`).
+### 1. Environment Configuration
 
-## Optional improvements
-- Add filtering by user / conversation.
-- Add authentication with JWT.
-- Add message timestamps.
+Ensure your `backend/.env` file contains your MongoDB connection string:
 
+```properties
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/messaging_db?retryWrites=true&w=majority
+```
+
+### 2. Run with Docker (Recommended)
+
+Run the entire stack (Frontend + Backend) with a single command:
+
+```bash
+docker-compose up --build
+```
+
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:8000
+- **API Docs:** http://localhost:8000/docs
+
+### 3. Manual Local Development (Optional)
+
+If you prefer running without Docker:
+
+**Backend:**
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm start
+```
+
+## ☁️ Deployment
+
+This project is configured for deployment on **Render**.
+
+1. **Backend:** Deploy as a **Web Service**. Add the `MONGO_URI` environment variable.
+2. **Frontend:** Deploy as a **Static Site**. Add `REACT_APP_API_URL` (HTTPS) and `REACT_APP_WS_URL` (WSS) environment variables pointing to your backend.
